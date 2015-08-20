@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+
+	<bean id="account" class="com.org.spring.annotations.AnnotationsExample.Account">
+		<property name="accID" value="123" />
+		<property name="accType" value="Savings" />
+		<property name="accName" value="XYZ" />
+	</bean>
+	<bean id="address" class="com.org.spring.annotations.AnnotationsExample.Address">
+		<property name="street" value="abc" />
+		<property name="village" value="def" />
+		<property name="city" value="foo" />
+		<property name="state" value="california" />
+	</bean>
+	<bean id="address1" class="com.org.spring.annotations.AnnotationsExample.Address">
+		<property name="street" value="abc1" />
+		<property name="village" value="def1" />
+		<property name="city" value="foo1" />
+		<property name="state" value="california1" />
+	</bean>
+
+	<!-- <bean id="account" class="com.org.spring.annotations.AnnotationsExample.AccountWithoutAnnotations"> 
+		<property name="address" ref="addressWithoutAnnotation"></property> </bean> 
+		<bean id="address" class="com.org.spring.annotations.AnnotationsExample.AddressWithoutAnnotations"></bean> -->
+
+
+	<!-- <bean id="account" class="com.org.spring.annotations.AnnotationsExample.AccountWithoutAnnotations" 
+		autowire="byName"> </bean> <bean id="address" class="com.org.spring.annotations.AnnotationsExample.AddressWithoutAnnotations"></bean> -->
+
+	<!-- <bean id="account" class="com.org.spring.annotations.AnnotationsExample.AccountWithoutAnnotations" 
+		autowire="byType"> </bean> <bean id="address" class="com.org.spring.annotations.AnnotationsExample.AddressWithoutAnnotations"></bean> -->
+
+	<!-- <bean id="account" class="com.org.spring.annotations.AnnotationsExample.AccountWithoutAnnotations" 
+		autowire="constructor"> </bean> <bean id="address" class="com.org.spring.annotations.AnnotationsExample.AddressWithoutAnnotations"></bean> -->
+
+	<!-- <bean id="account" class="com.org.spring.annotations.AnnotationsExample.AccountWithoutAnnotations" 
+		autowire="autodetect"> </bean> <bean id="address" class="com.org.spring.annotations.AnnotationsExample.AddressWithoutAnnotations"></bean> -->
+
+</beans>
+
+
+
+

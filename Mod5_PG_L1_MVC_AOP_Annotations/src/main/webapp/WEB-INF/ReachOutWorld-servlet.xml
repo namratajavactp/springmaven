@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-2.5.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				<entry key="/enrollRequest.html">
+					<ref bean="submitEnrollRequest" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+	<!--Line 1 -->
+	<bean id="submitEnrollRequest"
+		class="com.abbank.web.reach.out.world.controllers.SubmitEnrollRequest">
+		<!--Line 2 -->
+		<property name="formView" value="submitEnrollRequest"></property>
+		<!--Line 3 -->
+		<property name="commandName" value="enrollRequest"></property>
+		<!--Line 4 -->
+		<property name="commandClass"
+			value="com.abbank.web.reach.out.world.beans.EnrollRequest"></property>
+		<!--Line 5 -->
+		<property name="dataService" ref="saveDataService"></property>
+	</bean>
+
+	<!--Line 6 -->
+	<bean id="saveDataService" class="com.abbank.web.reach.out.world.services.SaveDataService">
+	</bean>
+
+	<!--Line 7 -->
+	<bean id="aopImpl" class="com.abbank.web.reach.out.world.aop.Advice">
+	</bean>
+	
+	<!--Line 8 -->
+	<aop:config>
+		<!--Line 9 -->
+		<aop:aspect ref="aopImpl">
+			
+			<!-- <aop:before
+				pointcut="execution(* com.abbank.web.reach.out.world.services.SaveDataService.save(com.abbank.web.reach.out.world.beans.EnrollRequest)) and args(enrollRequest)"
+				method="beforeImpl" arg-names="enrollRequest" /> -->
+	
+			<!-- <aop:before
+				pointcut-ref="businessService"
+				method="beforeImpl" />
+			
+			<aop:pointcut id="businessService" 
+     		   expression="execution(* com.abbank.web.reach.out.world.services.SaveDataService.save(..))"/>	
+     		 --> 
+     		<!--  
+     		  <aop:pointcut id="businessService" 
+     		   expression="execution(* com.abbank.web.reach.out.world.services.SaveDataService.save(..)) and within(com.abbank.batch.*)"/>	   -->
+     		   
+     		  <!--  <aop:pointcut id="businessService1" 
+     		   expression="execution(* com.abbank.web.reach.out.world.services.SaveDataService.save(..)) and bean(saveContactService)"/>	
+     		   
+     		   <aop:pointcut id="businessService" 
+     		   expression="execution(* com.abbank.web.reach.out.world.services.SaveDataService.save(..)) and !bean(saveContactService)"/>	 -->
+     		<!--Line 10 -->   	
+			<aop:before
+				pointcut-ref="businessService"
+				method="beforeImpl"  arg-names="enrollRequest"/>
+			
+			<aop:pointcut id="businessService" 
+     		   expression="execution(* com.abbank.web.reach.out.world.services.SaveDataService.save(com.abbank.web.reach.out.world.beans.EnrollRequest)) and args(enrollRequest)"/>
+				
+			<!--Line 11 -->
+			<aop:after
+				pointcut="execution(* com.abbank.web.reach.out.world.services.SaveDataService.save(..))"
+				method="AfterImpl" />
+		</aop:aspect>
+	</aop:config>
+</beans>
+
+
+
+<!-- 
+			
+			<aop:before
+				pointcut-ref="businessService"
+				method="beforeImpl"  arg-names="enrollRequest"/>
+			
+			<aop:pointcut id="businessService" 
+     		   expression="execution(* com.abbank.web.reach.out.world.services.SaveDataService.save(EnrollRequest))
+     		   and args(enrollRequest) "/>
+			
+			
+			 -->
+
